@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <title>Bootstrap 4 Example</title>
+    <title>Tutorial Laravel - www.malasngoding.com</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -12,13 +12,11 @@
 </head>
 
 <body>
-
     <div class="container">
         <h3>www.malasngoding.com</h3>
         <p>Seri Tutorial Laravel Lengkap Dari Dasar</p>
         <p>Ini adalah view blog. ada di route blog.</p>
     </div>
-
 </body>
 
 </html>
