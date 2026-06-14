@@ -6,6 +6,9 @@ use App\Http\Controllers\PegawaiController ;
 use App\Http\Controllers\PegawaiDBController ;
 use App\Http\Controllers\BlogController ;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\NilaiKuliahController;
+use App\Http\Controllers\KertasHVSController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -63,30 +66,28 @@ Route::get('/pegawaicari', [PegawaiDBController::class, 'cari']);
 Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
 Route::get('/siswa/create', [SiswaController::class, 'create'])->name('siswa.create');
 Route::post('/siswa', [SiswaController::class, 'store'])->name('siswa.store');
-Route::get('/siswa/{nrp}/edit', [SiswaController::class, 'edit1'])->name('siswa.edit');
+Route::get('/siswa/{nrp}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
 Route::put('/siswa/{nrp}', [SiswaController::class, 'update'])->name('siswa.update');
 Route::delete('/siswa/{nrp}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
 
-Route::get('/', function () {
-    $data = DB::table('keranjangbelanja')->get();
-    return view('keranjang.index', ['data' => $data]);
-});
+// route CRUD keranjang belanja
+Route::get('/keranjangbelanja', [KeranjangController::class, 'index'])->name('keranjang.index');
+Route::get('/keranjangbelanja/beli', [KeranjangController::class, 'create'])->name('keranjang.create');
+Route::post('/keranjangbelanja', [KeranjangController::class, 'store'])->name('keranjang.store');
+Route::delete('/keranjangbelanja/{id}', [KeranjangController::class, 'destroy'])->name('keranjang.destroy');
 
-Route::get('/beli', function () {
-    return view('keranjang.create');
-});
+//nilaikuliah
+Route::get('/nilaikuliah', [NilaiKuliahController::class, 'index'])->name('nilaikuliah.index');
+Route::get('/nilaikuliah/create', [NilaiKuliahController::class, 'create'])->name('nilaikuliah.create');
+Route::post('/nilaikuliah', [NilaiKuliahController::class, 'store'])->name('nilaikuliah.store');
+Route::get('/nilaikuliah/{id}/edit', [NilaiKuliahController::class, 'edit'])->name('nilaikuliah.edit');
+Route::put('/nilaikuliah/{id}', [NilaiKuliahController::class, 'update'])->name('nilaikuliah.update');
+Route::delete('/nilaikuliah/{id}', [NilaiKuliahController::class, 'destroy'])->name('nilaikuliah.destroy');
 
-Route::post('/beli', function (Request $request) {
-    DB::table('keranjangbelanja')->insert([
-        'KodeBarang' => $request->KodeBarang,
-        'Jumlah'     => $request->Jumlah,
-        'Harga'      => $request->Harga,
-    ]);
-    return redirect('/');
-});
-
-Route::post('/batal/{id}', function ($id) {
-    DB::table('keranjangbelanja')->where('id', $id)->delete();
-    return redirect('/');
-});
-
+// route CRUD kertas HVS
+Route::get('/kertashvs', [KertasHVSController::class, 'index'])->name('kertashvs.index');
+Route::get('/kertashvs/create', [KertasHVSController::class, 'create'])->name('kertashvs.create');
+Route::post('/kertashvs', [KertasHVSController::class, 'store'])->name('kertashvs.store');
+Route::get('/kertashvs/{id}/edit', [KertasHVSController::class, 'edit'])->name('kertashvs.edit');
+Route::put('/kertashvs/{id}', [KertasHVSController::class, 'update'])->name('kertashvs.update');
+Route::delete('/kertashvs/{id}', [KertasHVSController::class, 'destroy'])->name('kertashvs.destroy');

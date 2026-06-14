@@ -38,7 +38,7 @@ class SiswaController extends Controller
         return redirect()->route('siswa.index')->with('success', 'Data siswa berhasil ditambahkan.');
     }
 
-    public function edit1($nrp)
+    public function edit($nrp)
     {
         $siswa = DB::table('siswa')->where('NRP', $nrp)->first();
 

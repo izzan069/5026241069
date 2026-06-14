@@ -2,28 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Keranjangbelanja;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KeranjangController extends Controller
 {
-    // Halaman Index
     public function index()
     {
-        $data = Keranjangbelanja::all();
+        $data = DB::table('keranjangbelanja')->get();
         return view('keranjang.index', compact('data'));
     }
 
-    // Halaman Form Tambah (tombol Beli)
     public function create()
     {
         return view('keranjang.create');
     }
 
-    // Simpan data baru
     public function store(Request $request)
     {
-        Keranjangbelanja::create([
+        $request->validate([
+            'KodeBarang' => 'required|integer',
+            'Jumlah'     => 'required|integer|min:1',
+            'Harga'      => 'required|integer|min:0',
+        ]);
+
+        DB::table('keranjangbelanja')->insert([
             'KodeBarang' => $request->KodeBarang,
             'Jumlah'     => $request->Jumlah,
             'Harga'      => $request->Harga,
@@ -32,10 +35,9 @@ class KeranjangController extends Controller
         return redirect()->route('keranjang.index');
     }
 
-    // Hapus data (tombol Batal)
     public function destroy($id)
     {
-        Keranjangbelanja::findOrFail($id)->delete();
+        DB::table('keranjangbelanja')->where('id', $id)->delete();
         return redirect()->route('keranjang.index');
     }
 }

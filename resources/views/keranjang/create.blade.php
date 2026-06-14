@@ -1,31 +1,71 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Form Beli</title>
-    <style>
-        body { font-family: Arial; padding: 20px; }
-        label { display: block; margin-top: 10px; }
-        input { padding: 8px; width: 300px; margin-top: 4px; }
-        .btn { background: #28a745; color: white; padding: 8px 20px; border: none; cursor: pointer; border-radius: 4px; margin-top: 15px; }
-    </style>
-</head>
-<body>
-    <h2>Form Beli Barang</h2>
+@extends('template')
+@section('title', 'Tambah Belanja')
+@section('konten')
 
-    <form action="/beli" method="POST">
+    <h2>Tambah Item Belanja</h2>
+
+    @if ($errors->any())
+        <ul style="color: red;">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
+
+    <form action="{{ route('keranjang.store') }}" method="POST" onsubmit="return validasiForm()">
         @csrf
-        <label>Kode Barang:</label>
-        <input type="number" name="KodeBarang" required>
 
-        <label>Jumlah:</label>
-        <input type="number" name="Jumlah" required>
+        <p>
+            <label>Kode Barang</label><br>
+            <input type="text" name="KodeBarang" id="KodeBarang" value="{{ old('KodeBarang') }}">
+        </p>
 
-        <label>Harga per Item:</label>
-        <input type="number" name="Harga" required>
+        <p>
+            <label>Jumlah Pembelian</label><br>
+            <input type="text" name="Jumlah" id="Jumlah" value="{{ old('Jumlah') }}">
+        </p>
 
-        <br>
-        <button type="submit" class="btn">Simpan</button>
-        <a href="/">Kembali</a>
+        <p>
+            <label>Harga per item</label><br>
+            <input type="text" name="Harga" id="Harga" value="{{ old('Harga') }}">
+        </p>
+
+        <button type="submit" class="btn btn-primary">Beli</button>
+        <a href="{{ route('keranjang.index') }}" class="btn btn-secondary">Kembali</a>
     </form>
-</body>
-</html>
+
+    <script>
+        function validasiForm() {
+            let kodeBarang = document.getElementById('KodeBarang').value.trim();
+            let jumlah = document.getElementById('Jumlah').value.trim();
+            let harga = document.getElementById('Harga').value.trim();
+
+            if (kodeBarang === '') {
+                alert('Kode Barang wajib diisi');
+                return false;
+            }
+            if (isNaN(kodeBarang)) {
+                alert('Kode Barang harus berupa angka');
+                return false;
+            }
+            if (jumlah === '') {
+                alert('Jumlah wajib diisi');
+                return false;
+            }
+            if (isNaN(jumlah) || parseInt(jumlah) < 1) {
+                alert('Jumlah harus berupa angka dan minimal 1');
+                return false;
+            }
+            if (harga === '') {
+                alert('Harga wajib diisi');
+                return false;
+            }
+            if (isNaN(harga) || parseInt(harga) < 0) {
+                alert('Harga harus berupa angka dan tidak boleh negatif');
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+@endsection
