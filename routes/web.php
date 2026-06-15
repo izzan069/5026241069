@@ -9,6 +9,7 @@ use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\NilaiKuliahController;
 use App\Http\Controllers\KertasHVSController;
+use App\Http\Controllers\TagihanAirController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -91,3 +92,7 @@ Route::post('/kertashvs', [KertasHVSController::class, 'store'])->name('kertashv
 Route::get('/kertashvs/{id}/edit', [KertasHVSController::class, 'edit'])->name('kertashvs.edit');
 Route::put('/kertashvs/{id}', [KertasHVSController::class, 'update'])->name('kertashvs.update');
 Route::delete('/kertashvs/{id}', [KertasHVSController::class, 'destroy'])->name('kertashvs.destroy');
+
+Route::get('/eas', [TagihanAirController::class, 'index'])->name('tagihanair.index');
+Route::get('/eas/create', [TagihanAirController::class, 'create'])->name('tagihanair.create');
+Route::post('/eas', [TagihanAirController::class, 'store'])->name('tagihanair.store');
